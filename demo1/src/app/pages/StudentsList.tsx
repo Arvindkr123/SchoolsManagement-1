@@ -7,7 +7,7 @@ import moment from 'moment'
 type Props = {
   className: string
 }
-
+const BASE_URL_Image = 'http://localhost:8080/images'
 const StudentsList: React.FC<Props> = ({className}) => {
   const ctx = useAdmissionContext()
   const navigate = useNavigate()
@@ -78,9 +78,9 @@ const StudentsList: React.FC<Props> = ({className}) => {
                   </td>
                   <td>
                     <div className='d-flex align-items-center'>
-                      {/* <div className='symbol symbol-45px me-5'>
-                          <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' />
-                        </div> */}
+                      <div className='symbol symbol-45px me-5'>
+                        <img src={BASE_URL_Image + `/${student?.image}`} alt='' />
+                      </div>
                       <div className='d-flex justify-content-start flex-column'>
                         <Link to='#' className='text-dark fw-bold text-hover-primary fs-6'>
                           {student.name}
