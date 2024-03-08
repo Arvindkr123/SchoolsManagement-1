@@ -82,9 +82,13 @@ const StudentsList: React.FC<Props> = ({className}) => {
                         <img src={BASE_URL_Image + `/${student?.image}`} alt='' />
                       </div>
                       <div className='d-flex justify-content-start flex-column'>
-                        <Link to='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                        <div
+                          onClick={() => navigate(`/student/${student._id}`, {state: student})}
+                          style={{cursor: 'pointer'}}
+                          className='text-dark fw-bold text-hover-primary fs-6'
+                        >
                           {student.name}
-                        </Link>
+                        </div>
                         <span className='text-muted fw-semibold text-muted d-block fs-7'>
                           {student.select_course}
                         </span>
@@ -92,16 +96,24 @@ const StudentsList: React.FC<Props> = ({className}) => {
                     </div>
                   </td>
                   <td>
-                    <Link to='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                    <div
+                      onClick={() => navigate(`/student/${student._id}`, {state: student})}
+                      style={{cursor: 'pointer'}}
+                      className='text-dark fw-bold text-hover-primary d-block fs-6'
+                    >
                       +91 {student.mobile_number}
-                    </Link>
+                    </div>
                     <span className='text-muted fw-semibold text-muted d-block fs-7'>
                       {student.email}
                     </span>
                   </td>
                   <td className='text-end'>
                     <div className='d-flex flex-column w-100 me-2'>
-                      <div className='d-flex flex-stack mb-2'>
+                      <div
+                        onClick={() => navigate(`/student/${student._id}`, {state: student})}
+                        style={{cursor: 'pointer'}}
+                        className='d-flex flex-stack mb-2'
+                      >
                         <span className='text-muted me-2 fs-7 fw-semibold'>
                           {moment(student.date_of_joining).format('DD-MM-YYYY')}
                         </span>
