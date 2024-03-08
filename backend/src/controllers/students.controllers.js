@@ -12,13 +12,13 @@ export const getAllStudentsController = asyncHandler(async (req, res, next) => {
 
 export const updateStudentController = asyncHandler(async (req, res, next) => {
   try {
-    const student = await admissionFormModel.findOne({ _id: req.params.id });
+    const student = await admissionFormModel.findOne({ _id: req.params?.id });
     if (!student) {
       res.status(404).json({ success: false, message: "Student not found!" });
       return; // Added return to exit the function if student is not found
     }
 
-    const file = req.file.filename;
+    const file = req?.file?.filename;
     const {
       rollNumber,
       name,
@@ -45,7 +45,7 @@ export const updateStudentController = asyncHandler(async (req, res, next) => {
       date_of_joining,
       no_of_installments,
     } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     // Use || for conditional updates
     student.rollNumber = rollNumber || student.rollNumber;
