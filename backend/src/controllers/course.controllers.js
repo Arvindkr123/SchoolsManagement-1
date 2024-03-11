@@ -21,11 +21,12 @@ export const createCourseController = asyncHandler(async (req, res, next) => {
   }
 });
 
+// ---------------------------Course Category Controller -------------------------
 export const createCourseCategoryController = asyncHandler(
   async (req, res, next) => {
     try {
-      const { name } = req.body;
-      let newCategory = new categoryModel({ name, user: req.user._id });
+      const { category } = req.body;
+      let newCategory = new categoryModel({ category, user: req.user._id });
       await newCategory.save();
       res.status(200).json(newCategory);
     } catch (error) {
