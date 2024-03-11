@@ -1,5 +1,3 @@
-<div className="row">
-                            <div className="col-5">
-
-                            </div>
-                        </div>
+Course Type
+Course Category
+Number of Years

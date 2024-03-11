@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react'
-import { useIntl } from 'react-intl'
-import { KTIcon } from '../../../../helpers'
-import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
-import { SidebarMenuItem } from './SidebarMenuItem'
+import {useIntl} from 'react-intl'
+import {KTIcon} from '../../../../helpers'
+import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
+import {SidebarMenuItem} from './SidebarMenuItem'
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
@@ -13,7 +13,7 @@ const SidebarMenuMain = () => {
       <SidebarMenuItem
         to='/dashboard'
         icon='element-11'
-        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
       />
       <SidebarMenuItem to='/builder' icon='switch' title='Layout Builder' fontIcon='bi-layers' />
@@ -116,6 +116,19 @@ const SidebarMenuMain = () => {
       </SidebarMenuItemWithSub>
       {/* ******************  Manage Student added end ------- **************************** */}
 
+      {/* ************* Manage Courses Start   ****************** */}
+      <SidebarMenuItemWithSub
+        to='/apps/chat'
+        title='Manage Courses'
+        fontIcon='bi-chat-left'
+        icon='message-text-2'
+      >
+        <SidebarMenuItem to='/my-page' title='Courses' hasBullet={true} />
+        <SidebarMenuItem to='/students' title='Course Category' hasBullet={true} />
+        {/* <SidebarMenuItem to='/addmission-form' title='Add Course Category' hasBullet={true} /> */}
+      </SidebarMenuItemWithSub>
+      {/* ************* Manage Courses END   ****************** */}
+
       <SidebarMenuItem
         to='/apps/user-management/users'
         icon='abstract-28'
@@ -138,4 +151,4 @@ const SidebarMenuMain = () => {
   )
 }
 
-export { SidebarMenuMain }
+export {SidebarMenuMain}
