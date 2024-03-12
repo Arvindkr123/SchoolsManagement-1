@@ -4,18 +4,87 @@ import CourseTypeModel from "../models/course/courseType.models.js";
 import CourseModel from "../models/course/courses.models.js";
 import NumberOfYearsModel from "../models/course/numberOfYears.models.js";
 
+//----------------------------- Course Controller -----------------------------
 export const createCourseController = asyncHandler(async (req, res, next) => {
   try {
-    const { title, description, tags } = req.body;
-    console.log(title, description, tags, req.user._id);
-    let course = new CourseModel({
-      title: title,
-      description: description,
-      tags: tags,
-      createdBy: req.user._id,
+    const { courseName, courseType, numberOfYears, category } = req.body;
+    const existedCourseName = await CourseModel.findOne({
+      courseName: courseName,
     });
-    await course.save();
-    res.status(200).json(course);
+
+    if (existedCourseName) {
+      return res.status(400).json("Course Name already exists");
+    }
+
+    let newCourse = new CourseModel({
+      courseName,
+      createdBy: req.user.fName + " " + req.user.lName,
+      user: req.user._id,
+      courseType,
+      numberOfYears,
+      category,
+    });
+    await newCourse.save();
+    res.status(200).json(newCourse);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+export const getAllCourseController = asyncHandler(async (req, res, next) => {
+  try {
+    const courses = await CourseModel.find({});
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+export const updateCourseController = asyncHandler(async (req, res, next) => {
+  try {
+    const { courseName, courseType, numberOfYears, category } = req.body;
+    let findCourse = await CourseModel.findOne({ _id: req.params.id });
+    if (!findCourse) {
+      return res.status(404).json("Course not found");
+    }
+
+    findCourse.courseName = courseName || findCourse.courseName;
+    findCourse.courseType = courseType || findCourse.courseType;
+    findCourse.numberOfYears = numberOfYears || findCourse.numberOfYears;
+    findCourse.category = category || findCourse.category;
+    findCourse.user = req.user._id || findCourse.user;
+    findCourse.createdBy =
+      req.user.fName + " " + req.user.lName || findCourse.createdBy;
+
+    let updatedCourse = await findCourse.save();
+    res.status(200).json("Updated Course Successfully");
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+export const getSingleCourseController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      let findCourse = await CourseModel.findOne({ _id: req.params.id });
+      if (!findCourse) {
+        return res.status(404).json("Course not found");
+      }
+      res.status(200).json(findCourse);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  }
+);
+
+export const deleteCourseController = asyncHandler(async (req, res, next) => {
+  try {
+    let findCourse = await CourseModel.findOne({ _id: req.params.id });
+    if (!findCourse) {
+      return res.status(404).json("Course not found");
+    }
+    await findCourse.deleteOne();
+    res.status(200).json("Course deleted Successfully");
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -26,11 +95,95 @@ export const createCourseCategoryController = asyncHandler(
   async (req, res, next) => {
     try {
       const { category } = req.body;
-      let newCategory = new categoryModel({ category, user: req.user._id });
+      const existedCategory = await categoryModel.findOne({
+        category: category,
+      });
+      console.log(req.user);
+      if (existedCategory) {
+        return res.status(400).json("Category already exists");
+      }
+      let newCategory = new categoryModel({
+        category,
+        user: req.user._id,
+        createdBy: req.user.fName + " " + req.user.lName,
+      });
       await newCategory.save();
       res.status(200).json(newCategory);
     } catch (error) {
       res.status(500).json({ error: error });
+    }
+  }
+);
+
+export const getAllCourseCategoryController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      const allCategories = await categoryModel.find({});
+      res.status(200).json(allCategories);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  }
+);
+
+export const getSingleCourseCategoryController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      const singleCategory = await categoryModel.findOne({
+        _id: req.params.id,
+      });
+      res.status(200).json(singleCategory);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  }
+);
+
+export const deleteSingleCourseCategoryController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      const singleCategory = await categoryModel.findOne({
+        _id: req.params.id,
+      });
+
+      if (!singleCategory) {
+        return res.status(404).json("Category not found");
+      }
+
+      const deletionResult = await singleCategory.deleteOne();
+
+      if (deletionResult.deletedCount > 0) {
+        res.status(200).json("Deleted Single category successfully");
+      } else {
+        res.status(200).json("This category has already been deleted");
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+);
+
+export const updateCourseCategoryController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      const { category } = req.body;
+      const categoryFound = await categoryModel.findOne({
+        _id: req.params.id,
+      });
+
+      if (!categoryFound) {
+        return res.status(404).json("Category not found");
+      }
+
+      categoryFound.category = category || categoryFound.category;
+      categoryFound.user = req.user._id || categoryFound.user;
+      categoryFound.createdBy =
+        req.user.fName + " " + req.user.lName || categoryFound.createdBy;
+
+      let updatedCategory = await categoryFound.save();
+      res.status(200).json(updatedCategory);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   }
 );
@@ -40,12 +193,31 @@ export const createCourseTypeController = asyncHandler(
   async (req, res, next) => {
     try {
       const { courseType } = req.body;
+      const existedCourseType = await CourseTypeModel.findOne({
+        courseType: courseType,
+      });
+
+      if (existedCourseType) {
+        return res.status(400).json("CourseType already exists");
+      }
       let newCourseType = new CourseTypeModel({
         courseType,
         user: req.user._id,
+        createdBy: req.user.fName + " " + req.user.lName,
       });
       await newCourseType.save();
       res.status(200).json(newCourseType);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  }
+);
+
+export const getAllCourseTypeController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      let courseType = await CourseTypeModel.find();
+      res.status(200).json(courseType);
     } catch (error) {
       res.status(500).json({ error: error });
     }
@@ -71,6 +243,8 @@ export const updateCourseTypeController = asyncHandler(
       let olCourseType = await CourseTypeModel.findById(id);
       olCourseType.courseType = courseType || olCourseType.courseType;
       olCourseType.user = req.user._id || olCourseType.user;
+      olCourseType.createdBy =
+        req.user.fName + " " + req.user.lName || olCourseType.createdBy;
       await olCourseType.save();
       res.status(200).json(olCourseType); // Corrected to olCourseType
     } catch (error) {
@@ -96,12 +270,29 @@ export const createCourseNumberOfYearController = asyncHandler(
   async (req, res, next) => {
     try {
       const { numberOfYears } = req.body;
+      let existedNumberOfYears = await NumberOfYearsModel.findOne({
+        numberOfYears,
+      });
+      if (existedNumberOfYears) {
+        return res.status(400).json("already exists number of years type");
+      }
       let newCourseNumberOfYears = new NumberOfYearsModel({
         numberOfYears,
         user: req.user._id,
+        createdBy: req.user.fName + " " + req.user.lName,
       });
       await newCourseNumberOfYears.save();
       res.status(200).json(newCourseNumberOfYears);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
+  }
+);
+export const getNumberOfYearsController = asyncHandler(
+  async (req, res, next) => {
+    try {
+      let result = await NumberOfYearsModel.find({});
+      res.status(200).json(result);
     } catch (error) {
       res.status(500).json({ error: error });
     }
@@ -132,13 +323,32 @@ export const updateNumberOfYearsCourseController = asyncHandler(
   async (req, res, next) => {
     try {
       const { numberOfYears } = req.body;
+      console.log(req.params.id);
       let result = await NumberOfYearsModel.findById(req.params.id);
+
+      if (!result) {
+        return res.status(404).json({ error: "Course not found" });
+      }
+
       result.numberOfYears = numberOfYears || result.numberOfYears;
       result.user = req.user._id || result.user;
-      let updated = await result.save();
-      res.status(200).json(updated);
+      result.createdBy =
+        req.user.fName + " " + req.user.lName || result.createdBy;
+
+      try {
+        let updated = await result.save();
+        res.status(200).json(updated);
+      } catch (saveError) {
+        if (saveError.code === 11000) {
+          // Handle duplicate key error
+          return res
+            .status(400)
+            .json({ error: "Duplicate numberOfYears value" });
+        }
+        throw saveError; // Throw other save errors
+      }
     } catch (error) {
-      res.status(500).json({ error: error });
+      res.status(500).json({ error: error.message });
     }
   }
 );

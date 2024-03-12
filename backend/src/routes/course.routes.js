@@ -10,20 +10,47 @@ import {
   getSingleNumberOfYearsController,
   updateNumberOfYearsCourseController,
   deleteNumberOfYearsCourseController,
+  getNumberOfYearsController,
+  getAllCourseTypeController,
+  getAllCourseCategoryController,
+  getSingleCourseCategoryController,
+  deleteSingleCourseCategoryController,
+  updateCourseCategoryController,
+  getAllCourseController,
+  updateCourseController,
+  getSingleCourseController,
+  deleteCourseController,
 } from "../controllers/course.controllers.js";
 import { requireSignIn } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.route("/").post(requireSignIn, createCourseController);
+router
+  .route("/")
+  .post(requireSignIn, createCourseController)
+  .get(requireSignIn, getAllCourseController);
+router
+  .route("/:id")
+  .put(requireSignIn, updateCourseController)
+  .get(requireSignIn, getSingleCourseController)
+  .delete(requireSignIn, deleteCourseController);
 
 //  Add Course Category
 router
   .route("/addCategory")
   .post(requireSignIn, createCourseCategoryController);
+router.route("/categories").get(requireSignIn, getAllCourseCategoryController);
+router
+  .route("/category/:id")
+  .get(requireSignIn, getSingleCourseCategoryController)
+  .put(requireSignIn, updateCourseCategoryController)
+  .delete(requireSignIn, deleteSingleCourseCategoryController);
 
 // Add course Type
-router.route("/courseType").post(requireSignIn, createCourseTypeController);
+router
+  .route("/courseType")
+  .get(getAllCourseTypeController)
+  .post(requireSignIn, createCourseTypeController);
 router
   .route("/courseType/:id")
   .get(getCourseTypeController)
@@ -33,6 +60,7 @@ router
 // Add Course Number of Years
 router
   .route("/numberOfYears")
+  .get(getNumberOfYearsController)
   .post(requireSignIn, createCourseNumberOfYearController);
 router
   .route("/numberOfYears/:id")
