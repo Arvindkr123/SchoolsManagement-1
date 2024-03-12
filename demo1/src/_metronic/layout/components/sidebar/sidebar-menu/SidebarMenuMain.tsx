@@ -123,8 +123,14 @@ const SidebarMenuMain = () => {
         fontIcon='bi-chat-left'
         icon='message-text-2'
       >
-        <SidebarMenuItem to='/my-page' title='Courses' hasBullet={true} />
-        <SidebarMenuItem to='/students' title='Course Category' hasBullet={true} />
+        <SidebarMenuItem to='/course/course-type' title='Add Course Type' hasBullet={true} />
+        <SidebarMenuItem to='/course/category' title='Add Course Category' hasBullet={true} />
+        <SidebarMenuItem
+          to='/course/no_of_years_course'
+          title='Add Course Number Of Years'
+          hasBullet={true}
+        />
+        <SidebarMenuItem to='/course/addCourse' title='Add Course' hasBullet={true} />
         {/* <SidebarMenuItem to='/addmission-form' title='Add Course Category' hasBullet={true} /> */}
       </SidebarMenuItemWithSub>
       {/* ************* Manage Courses END   ****************** */}

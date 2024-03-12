@@ -22,12 +22,54 @@ const PrivateRoutes = () => {
   const MyPage = lazy(() => import('../pages/MyPage'))
   const StudentsList = lazy(() => import('../pages/StudentsList'))
   const StudentProfile = lazy(() => import('../pages/student-profile/StudentProfile'))
+  const CourseTypes = lazy(() => import('../pages/course/course-type'))
+  const CourseCategory = lazy(() => import('../pages/course/category'))
+  const NumberOfYearsCourse = lazy(() => import('../pages/course/Number Of Years'))
+  const AddCourse = lazy(() => import('../pages/course'))
 
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
+
+        {/* ====================Start Course Here ==================== */}
+        <Route
+          path='/course/course-type'
+          element={
+            <SuspensedView>
+              <CourseTypes />
+            </SuspensedView>
+          }
+        />
+
+        <Route
+          path='/course/category'
+          element={
+            <SuspensedView>
+              <CourseCategory />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='/course/no_of_years_course'
+          element={
+            <SuspensedView>
+              <NumberOfYearsCourse />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='/course/addCourse'
+          element={
+            <SuspensedView>
+              <AddCourse />
+            </SuspensedView>
+          }
+        />
+
+        {/* ====================End Course Here ==================== */}
+
         <Route
           path='/my-page'
           element={
