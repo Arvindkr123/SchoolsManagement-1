@@ -49,7 +49,7 @@ router
 // Add course Type
 router
   .route("/courseType")
-  .get(getAllCourseTypeController)
+  .get(requireSignIn, getAllCourseTypeController)
   .post(requireSignIn, createCourseTypeController);
 router
   .route("/courseType/:id")
