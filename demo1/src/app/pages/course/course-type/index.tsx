@@ -67,66 +67,75 @@ const CourseTypes: React.FC<Props> = ({className}) => {
               {/* end::Table head */}
               {/* begin::Table body */}
               <tbody>
-                {ctx.courseTypesLists.data?.map((course: any) => (
-                  <tr key={course._id}>
-                    <td>
-                      <div className='form-check form-check-sm form-check-custom form-check-solid'>
-                        {/* <input
+                {ctx.courseTypesLists.data.length > 0 ? (
+                  ctx.courseTypesLists.data?.map((course: any) => (
+                    <tr key={course._id}>
+                      <td>
+                        <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                          {/* <input
                           className='form-check-input widget-9-check'
                           type='checkbox'
                           value='1'
                         /> */}
-                      </div>
-                    </td>
-                    <td>
-                      <div className='d-flex align-items-center'>
-                        <div className='symbol symbol-45px me-5'>
-                          {/* <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' /> */}
                         </div>
-                        <div className='d-flex justify-content-start flex-column'>
-                          <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                            {course.courseType}
-                          </a>
-                          {/* <span className='text-muted fw-semibold text-muted d-block fs-7'>
+                      </td>
+                      <td>
+                        <div className='d-flex align-items-center'>
+                          <div className='symbol symbol-45px me-5'>
+                            {/* <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' /> */}
+                          </div>
+                          <div className='d-flex justify-content-start flex-column'>
+                            <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                              {course.courseType}
+                            </a>
+                            {/* <span className='text-muted fw-semibold text-muted d-block fs-7'>
                             HTML, JS, ReactJS
                           </span> */}
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                        {course.createdBy}
-                      </a>
-                    </td>
-                    <td className='text-end'>
-                      <div className='d-flex flex-column w-100 me-2'>
-                        <div className='d-flex flex-stack mb-2'>
-                          <span className='text-muted me-2 fs-7 fw-semibold'>
-                            {moment(course.createdAt).format('DD-MM-YYYY')}
-                          </span>
+                      </td>
+                      <td>
+                        <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                          {course.createdBy}
+                        </a>
+                      </td>
+                      <td className='text-end'>
+                        <div className='d-flex flex-column w-100 me-2'>
+                          <div className='d-flex flex-stack mb-2'>
+                            <span className='text-muted me-2 fs-7 fw-semibold'>
+                              {moment(course.createdAt).format('DD-MM-YYYY')}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className='d-flex justify-content-end flex-shrink-0'>
-                        <button
-                          onClick={() =>
-                            navigate(`/course/course-type/edit/${course._id}`, {state: course})
-                          }
-                          className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
-                        >
-                          <KTIcon iconName='pencil' className='fs-3' />
-                        </button>
-                        <button
-                          onClick={() => ctx.deleteCourseTypeMutation.mutate(course._id)}
-                          className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
-                        >
-                          <KTIcon iconName='trash' className='fs-3' />
-                        </button>
-                      </div>
+                      </td>
+                      <td>
+                        <div className='d-flex justify-content-end flex-shrink-0'>
+                          <button
+                            onClick={() =>
+                              navigate(`/course/course-type/edit/${course._id}`, {state: course})
+                            }
+                            className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
+                          >
+                            <KTIcon iconName='pencil' className='fs-3' />
+                          </button>
+                          <button
+                            onClick={() => ctx.deleteCourseTypeMutation.mutate(course._id)}
+                            className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
+                          >
+                            <KTIcon iconName='trash' className='fs-3' />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr className='col-12'>
+                    <td className='text-center' colSpan={5}>
+                      <h2 className='p-5'>No Course Types Available!</h2>
+                      <p>Please Create New Course Type</p>
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
               {/* end::Table body */}
             </table>
