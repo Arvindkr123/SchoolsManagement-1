@@ -73,7 +73,7 @@ const PrivateRoutes = () => {
           path='/course/no_of_years_course'
           element={
             <SuspensedView>
-              <NumberOfYearsCourse />
+              <NumberOfYearsCourse className='' />
             </SuspensedView>
           }
         />
