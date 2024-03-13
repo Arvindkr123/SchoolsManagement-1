@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { toAbsoluteUrl } from '../../../../../../_metronic/helpers'
-import { IProfileDetails, profileDetailsInitValues as initialValues } from '../SettingsModel'
+import React, {useState} from 'react'
+import {toAbsoluteUrl} from '../../../../../../_metronic/helpers'
+import {IProfileDetails, profileDetailsInitValues as initialValues} from '../SettingsModel'
 import * as Yup from 'yup'
-import { useFormik } from 'formik'
-import { useMutation } from 'react-query'
+import {useFormik} from 'formik'
+import {useMutation} from 'react-query'
 
 const profileDetailsSchema = Yup.object().shape({
   fName: Yup.string().required('First name is required'),
@@ -17,9 +17,6 @@ const profileDetailsSchema = Yup.object().shape({
   currency: Yup.string().required('Currency is required'),
 })
 
-
-
-
 const ProfileDetails: React.FC = () => {
   const [data, setData] = useState<IProfileDetails>(initialValues)
   const updateData = (fieldsToUpdate: Partial<IProfileDetails>): void => {
@@ -32,26 +29,25 @@ const ProfileDetails: React.FC = () => {
       method: 'POST',
       body: JSON.stringify(values),
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
     if (!response.ok) {
-      throw new Error('Error posting data');
+      throw new Error('Error posting data')
     }
-    return response.json();
+    return response.json()
   }
   // Use the useMutation hook
   const mutation = useMutation(postProfileDetails, {
     onSuccess: () => {
       // Optional: Handle success, e.g., redirect or show a success message
-      console.log('Data posted successfully');
+      console.log('Data posted successfully')
     },
     onError: (error) => {
       // Optional: Handle error, e.g., show an error message
-      console.error('Error posting data:', error);
+      console.error('Error posting data:', error)
     },
-  });
-
+  })
 
   const [loading, setLoading] = useState(false)
   const formik = useFormik<IProfileDetails>({
@@ -96,11 +92,11 @@ const ProfileDetails: React.FC = () => {
                 <div
                   className='image-input image-input-outline'
                   data-kt-image-input='true'
-                  style={{ backgroundImage: `url(${toAbsoluteUrl('/media/avatars/blank.png')})` }}
+                  style={{backgroundImage: `url(${toAbsoluteUrl('/media/avatars/blank.png')})`}}
                 >
                   <div
                     className='image-input-wrapper w-125px h-125px'
-                    style={{ backgroundImage: `url(${toAbsoluteUrl(data.avatar)})` }}
+                    style={{backgroundImage: `url(${toAbsoluteUrl(data.avatar)})`}}
                   ></div>
                 </div>
               </div>
@@ -785,7 +781,7 @@ const ProfileDetails: React.FC = () => {
                     id='allowmarketing'
                     defaultChecked={data.allowMarketing}
                     onChange={() => {
-                      updateData({ allowMarketing: !data.allowMarketing })
+                      updateData({allowMarketing: !data.allowMarketing})
                     }}
                   />
                   <label className='form-check-label'></label>
@@ -798,7 +794,7 @@ const ProfileDetails: React.FC = () => {
             <button type='submit' className='btn btn-primary' disabled={loading}>
               {!loading && 'Save Changes'}
               {loading && (
-                <span className='indicator-progress' style={{ display: 'block' }}>
+                <span className='indicator-progress' style={{display: 'block'}}>
                   Please wait...{' '}
                   <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
                 </span>
@@ -811,4 +807,4 @@ const ProfileDetails: React.FC = () => {
   )
 }
 
-export { ProfileDetails }
+export {ProfileDetails}

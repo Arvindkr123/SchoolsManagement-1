@@ -198,17 +198,20 @@ export const createCourseTypeController = asyncHandler(
       });
 
       if (existedCourseType) {
-        return res.status(400).json("CourseType already exists");
+        res.status(400).json({ error: "CourseType already exists" });
+        return;
       }
+
       let newCourseType = new CourseTypeModel({
         courseType,
         user: req.user._id,
         createdBy: req.user.fName + " " + req.user.lName,
       });
+
       await newCourseType.save();
       res.status(200).json(newCourseType);
     } catch (error) {
-      res.status(500).json({ error: error });
+      res.status(500).json({ error: error.message || "Internal Server Error" });
     }
   }
 );
@@ -216,7 +219,9 @@ export const createCourseTypeController = asyncHandler(
 export const getAllCourseTypeController = asyncHandler(
   async (req, res, next) => {
     try {
-      let courseType = await CourseTypeModel.find();
+      let courseType = await CourseTypeModel.find()
+        .sort({ createdAt: -1 })
+        .exec();
       res.status(200).json(courseType);
     } catch (error) {
       res.status(500).json({ error: error });

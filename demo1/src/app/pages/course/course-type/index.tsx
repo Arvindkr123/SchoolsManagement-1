@@ -1,8 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {KTIcon, toAbsoluteUrl} from '../../../../_metronic/helpers'
-import {PageTitle} from '../../../../_metronic/layout/core'
 import {useCourseTypesContext} from './CourseTypeContext'
 import moment from 'moment'
+import {useNavigate} from 'react-router-dom'
 
 type Props = {
   className: string
@@ -10,7 +10,7 @@ type Props = {
 
 const CourseTypes: React.FC<Props> = ({className}) => {
   const ctx = useCourseTypesContext()
-  console.log(ctx.courseTypesLists)
+  const navigate = useNavigate()
   return (
     <div>
       <div className={`card ${className}`}>
@@ -26,15 +26,15 @@ const CourseTypes: React.FC<Props> = ({className}) => {
             data-bs-trigger='hover'
             title='Click to add a user'
           >
-            <a
-              href='#'
+            <button
+              onClick={() => navigate('/course/course-type/editAdd/:id')}
               className='btn btn-sm btn-light-primary'
               // data-bs-toggle='modal'
               // data-bs-target='#kt_modal_invite_friends'
             >
               <KTIcon iconName='plus' className='fs-3' />
               Add New Course Types
-            </a>
+            </button>
           </div>
         </div>
         {/* end::Header */}
@@ -109,18 +109,20 @@ const CourseTypes: React.FC<Props> = ({className}) => {
                     </td>
                     <td>
                       <div className='d-flex justify-content-end flex-shrink-0'>
-                        <a
-                          href='#'
+                        <button
+                          onClick={() =>
+                            navigate(`/course/course-type/edit/${course._id}`, {state: course})
+                          }
                           className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
                         >
                           <KTIcon iconName='pencil' className='fs-3' />
-                        </a>
-                        <a
-                          href='#'
+                        </button>
+                        <button
+                          onClick={() => ctx.deleteCourseTypeMutation.mutate(course._id)}
                           className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
                         >
                           <KTIcon iconName='trash' className='fs-3' />
-                        </a>
+                        </button>
                       </div>
                     </td>
                   </tr>

@@ -10,6 +10,8 @@ import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import AddStudent from '../pages/AddStudent'
 import AddUser from '../pages/AddUser'
 import UserList from '../pages/UserList'
+import AddCourseEditAndAdd from '../pages/course/course-type/AddCourseEditAndAdd'
+import AddCourseTypeEdit from '../pages/course/course-type/AddCourseTypeEdit'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -39,6 +41,22 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <CourseTypes className='' />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='/course/course-type/editAdd/:id'
+          element={
+            <SuspensedView>
+              <AddCourseEditAndAdd />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='/course/course-type/edit/:id'
+          element={
+            <SuspensedView>
+              <AddCourseTypeEdit />
             </SuspensedView>
           }
         />
