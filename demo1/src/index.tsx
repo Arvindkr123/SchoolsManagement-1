@@ -1,11 +1,11 @@
-import { createRoot } from 'react-dom/client'
+import {createRoot} from 'react-dom/client'
 // Axios
 import axios from 'axios'
-import { Chart, registerables } from 'chart.js'
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
+import {Chart, registerables} from 'chart.js'
+import {QueryClient, QueryClientProvider} from 'react-query'
+import {ReactQueryDevtools} from 'react-query/devtools'
 // Apps
-import { MetronicI18nProvider } from './_metronic/i18n/Metronici18n'
+import {MetronicI18nProvider} from './_metronic/i18n/Metronici18n'
 import './_metronic/assets/fonticon/fonticon.css'
 import './_metronic/assets/keenicons/duotone/style.css'
 import './_metronic/assets/keenicons/outline/style.css'
@@ -18,10 +18,10 @@ import './_metronic/assets/keenicons/solid/style.css'
 import './_metronic/assets/sass/style.scss'
 import './_metronic/assets/sass/plugins.scss'
 import './_metronic/assets/sass/style.react.scss'
-import { AppRoutes } from './app/routing/AppRoutes'
-import { AuthProvider, setupAxios } from './app/modules/auth'
-import { AdmissionContextProvider } from './app/modules/auth/core/Addmission'
-
+import {AppRoutes} from './app/routing/AppRoutes'
+import {AuthProvider, setupAxios} from './app/modules/auth'
+import {AdmissionContextProvider} from './app/modules/auth/core/Addmission'
+import {CourseTypesContextProvider} from './app/pages/course/course-type/CourseTypeContext'
 
 setupAxios(axios)
 Chart.register(...registerables)
@@ -33,9 +33,11 @@ if (container) {
     <QueryClientProvider client={queryClient}>
       <MetronicI18nProvider>
         <AuthProvider>
-          <AdmissionContextProvider>
-            <AppRoutes />
-          </AdmissionContextProvider>
+          <CourseTypesContextProvider>
+            <AdmissionContextProvider>
+              <AppRoutes />
+            </AdmissionContextProvider>
+          </CourseTypesContextProvider>
         </AuthProvider>
       </MetronicI18nProvider>
       <ReactQueryDevtools initialIsOpen={false} />

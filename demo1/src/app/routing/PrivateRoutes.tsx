@@ -38,7 +38,7 @@ const PrivateRoutes = () => {
           path='/course/course-type'
           element={
             <SuspensedView>
-              <CourseTypes />
+              <CourseTypes className='' />
             </SuspensedView>
           }
         />
