@@ -26,7 +26,7 @@ export const CourseTypesContextProvider = ({children}) => {
     },
   })
 
-  console.log(courseTypesLists)
+  //console.log(courseTypesLists)
 
   //console.log(studentsLists)
   const createAddCourseTypeMutation = useMutation({

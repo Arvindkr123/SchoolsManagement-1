@@ -1,10 +1,20 @@
 import {KTIcon} from '../../../../_metronic/helpers'
+import {uesNumberOfYearCourseTypes} from './NumberOfYearContextProvider'
+import moment from 'moment'
 
 type Props = {
   className: string
 }
 
 const NumberOfYearsCourse: React.FC<Props> = ({className}) => {
+  const ctx = uesNumberOfYearCourseTypes()
+  //console.log(ctx.courseNumberOfYearTypesLists.data)
+
+  const deleteHandlerNumberOfYear = async (id: string | number) => {
+    if (window.confirm('Are you sure you want to delete')) {
+      alert(id)
+    }
+  }
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -17,13 +27,14 @@ const NumberOfYearsCourse: React.FC<Props> = ({className}) => {
           data-bs-toggle='tooltip'
           data-bs-placement='top'
           data-bs-trigger='hover'
-          title='Click to add a user'
+          title='Click to add a course number of Year'
         >
           <a
             href='#'
             className='btn btn-sm btn-light-primary'
             data-bs-toggle='modal'
-            data-bs-target='#kt_modal_invite_friends'
+            // data-bs-target='#kt_modal_invite_friends'
+            data-bs-target='#kt_modal_add_Number_of_Year'
           >
             <KTIcon iconName='plus' className='fs-3' />
             Add New Number Of Course Year
@@ -60,66 +71,65 @@ const NumberOfYearsCourse: React.FC<Props> = ({className}) => {
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody>
-              <tr>
-                <td>
-                  <div className='form-check form-check-sm form-check-custom form-check-solid'>
-                    {/* <input className='form-check-input widget-9-check' type='checkbox' value='1' /> */}
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <div className='symbol symbol-45px me-5'>
-                      {/* <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' /> */}
-                    </div>
-                    <div className='d-flex justify-content-start flex-column'>
-                      <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                        Ana Simmons
+              {ctx.courseNumberOfYearTypesLists.data.length > 0 ? (
+                ctx.courseNumberOfYearTypesLists.data.map((ele: any) => (
+                  <tr>
+                    <td>
+                      <div className='form-check form-check-sm form-check-custom form-check-solid'></div>
+                    </td>
+                    <td>
+                      <div className='d-flex align-items-center'>
+                        <div className='symbol symbol-45px me-5'></div>
+                        <div className='d-flex justify-content-start flex-column'>
+                          <a href='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                            {ele.numberOfYears}
+                          </a>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                        {ele.createdBy}
                       </a>
-                      {/* <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                        HTML, JS, ReactJS
-                      </span> */}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <a href='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                    Intertico
-                  </a>
-                  {/* <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                    Web, UI/UX Design
-                  </span> */}
-                </td>
-                <td className='text-end'>
-                  <div className='d-flex flex-column w-100 me-2'>
-                    <div className='d-flex flex-stack mb-2'>
-                      <span className='text-muted me-2 fs-7 fw-semibold'>50%</span>
-                    </div>
-                    {/* <div className='progress h-6px w-100'>
-                      <div
-                        className='progress-bar bg-primary'
-                        role='progressbar'
-                        style={{width: '50%'}}
-                      ></div>
-                    </div> */}
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex justify-content-end flex-shrink-0'>
-                    <a
-                      href='#'
-                      className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
-                    >
-                      <KTIcon iconName='pencil' className='fs-3' />
-                    </a>
-                    <a
-                      href='#'
-                      className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
-                    >
-                      <KTIcon iconName='trash' className='fs-3' />
-                    </a>
-                  </div>
-                </td>
-              </tr>
+                    </td>
+                    <td className='text-end'>
+                      <div className='d-flex flex-column w-100 me-2'>
+                        <div className='d-flex flex-stack mb-2'>
+                          <span className='text-muted me-2 fs-7 fw-semibold'>
+                            {' '}
+                            {moment(ele.createdAt).format('DD-MM-YYYY')}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='d-flex justify-content-end flex-shrink-0'>
+                        <button
+                          data-bs-toggle='modal'
+                          // data-bs-target='#kt_modal_invite_friends'
+                          data-bs-target='#kt_modal_add_Number_of_Year'
+                          className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
+                        >
+                          <KTIcon iconName='pencil' className='fs-3' />
+                        </button>
+                        <button
+                          onClick={() => deleteHandlerNumberOfYear(ele._id)}
+                          className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
+                        >
+                          <KTIcon iconName='trash' className='fs-3' />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className='col-12'>
+                  <td className='text-center' colSpan={5}>
+                    <h2 className='p-5'>Number Of Years Course Types is not Available!</h2>
+                    <p>Please Create New Number Of Years Course Type</p>
+                  </td>
+                </tr>
+              )}
             </tbody>
             {/* end::Table body */}
           </table>
